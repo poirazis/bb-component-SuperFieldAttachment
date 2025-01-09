@@ -87,24 +87,10 @@
       },
       {
         "type": "boolean",
-        "label": "Debounced",
-        "key": "debounced",
-        "defaultValue": false
-      },
-      {
-        "type": "boolean",
         "label": "Suggestions",
         "key": "showSuggestions",
         "hidden": true,
         "defaultValue": false
-      },
-      {
-        "type": "number",
-        "label": "Debounce Delay (ms)",
-        "key": "debounceDelay",
-        "minValue": "200",
-        "defaultValue": 750,
-        "dependsOn": "debounced"
       },
       {
         "type": "boolean",
@@ -124,32 +110,9 @@
         }
       },
       {
-        "type": "boolean",
-        "key": "clearValueIcon",
-        "label": "Clear Value Icon"
-      },
-      {
-        "type": "boolean",
-        "key": "showIcon",
-        "label": "Add Inline Icon"
-      },
-      {
-        "type": "icon",
-        "key": "icon",
-        "label": "Icon",
-        "resetOn": "showIcon",
-        "dependsOn": "showIcon"
-      },
-      {
-        "type": "boolean",
-        "key": "customButtons",
-        "label": "Add Buttons"
-      },
-      {
         "type": "buttonConfiguration",
         "key": "buttons",
-        "nested": true,
-        "dependsOn": "customButtons"
+        "nested": true
       },
       {
         "tag": "style",
@@ -169,10 +132,17 @@
         "key": "labelPosition",
         "showInBar": true,
         "barStyle": "buttons",
+        "defaultValue": "fieldGroup",
         "options": [
           {
-            "label": "Auto",
+            "label": "Disabled",
             "value": false,
+            "barIcon": "Cancel",
+            "barTitle": "Disabled"
+          },
+          {
+            "label": "Auto",
+            "value": "fieldGroup",
             "barIcon": "Group",
             "barTitle": "Field Group"
           },
