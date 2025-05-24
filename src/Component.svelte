@@ -1,10 +1,10 @@
 <script>
   import { getContext, onDestroy } from "svelte";
-  import CellAttachment from "../../bb_super_components_shared/src/lib/SuperTableCells/CellAttachment.svelte";
-  import SuperButton from "../../bb_super_components_shared/src/lib/SuperButton/SuperButton.svelte";
-  import SuperFieldLabel from "../../bb_super_components_shared/src/lib/SuperFieldLabel/SuperFieldLabel.svelte";
-  import "../../bb_super_components_shared/src/lib/SuperTableCells/CellCommon.css";
-  import "../../bb_super_components_shared/src/lib/SuperFieldsCommon.css";
+  import {
+    CellAttachment,
+    SuperButton,
+    SuperField,
+  } from "@poirazis/supercomponents-shared";
 
   const { styleable, enrichButtonActions } = getContext("sdk");
   const component = getContext("component");
@@ -18,7 +18,7 @@
   const groupDisabled = getContext("field-group-disabled");
   const formApi = formContext?.formApi;
 
-  export let field;
+  export let field = "Attachment Field";
   export let buttons = [];
   export let label;
   export let span = 6;
@@ -39,7 +39,8 @@
   export let clearValueIcon;
 
   export let role;
-  export let labelPosition;
+  export let labelPosition = "fieldGroup";
+
   export let helpText;
 
   let formField;
@@ -50,11 +51,10 @@
   let value;
 
   $: formStep = formStepContext ? $formStepContext || 1 : 1;
-  $: labelPos = label
-    ? groupLabelPosition && labelPosition == "fieldGroup"
+  $: labelPos =
+    groupLabelPosition && labelPosition == "fieldGroup"
       ? groupLabelPosition
-      : labelPosition
-    : false;
+      : labelPosition;
 
   $: formField = formApi?.registerField(
     field,
@@ -73,6 +73,8 @@
   });
 
   $: value = fieldState?.value ? fieldState.value : defaultValue;
+  $: error = fieldState?.error;
+
   $: cellOptions = {
     placeholder,
     defaultValue,
@@ -93,6 +95,7 @@
     normal: {
       ...$component.styles.normal,
       "grid-column": span < 7 ? "span " + span : "span " + groupColumns * 6,
+      flex: span > 6 ? "auto" : "none",
     },
   };
 
@@ -111,38 +114,28 @@
 <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div use:styleable={$component.styles}>
-  <div class="superField" class:left-label={labelPos == "left"}>
-    <SuperFieldLabel
-      {labelPos}
-      {labelWidth}
-      {label}
-      {helpText}
-      error={fieldState?.error}
+  <SuperField {labelPos} {labelWidth} {field} {label} {error} {helpText}>
+    <CellAttachment
+      {cellOptions}
+      {value}
+      {fieldSchema}
+      {autofocus}
+      on:change={(e) => handleChange(e.detail)}
     />
-
-    <div class="inline-cells">
-      <CellAttachment
-        {cellOptions}
-        {value}
-        {fieldSchema}
-        {autofocus}
-        on:change={(e) => handleChange(e.detail)}
-      />
-      {#if buttons?.length}
-        <div class="inline-buttons">
-          {#each buttons as { text, onClick, icon, size, quiet, type }}
-            <SuperButton
-              {icon}
-              {size}
-              {disabled}
-              {text}
-              {quiet}
-              {type}
-              onClick={enrichButtonActions(onClick, $allContext)}
-            />
-          {/each}
-        </div>
-      {/if}
-    </div>
-  </div>
+    {#if buttons?.length}
+      <div class="inline-buttons">
+        {#each buttons as { text, onClick, icon, size, quiet, type }}
+          <SuperButton
+            {icon}
+            {size}
+            {disabled}
+            {text}
+            {quiet}
+            {type}
+            onClick={enrichButtonActions(onClick, $allContext)}
+          />
+        {/each}
+      </div>
+    {/if}
+  </SuperField>
 </div>
