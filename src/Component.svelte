@@ -94,8 +94,7 @@
     ...$component.styles,
     normal: {
       ...$component.styles.normal,
-      "grid-column": span < 7 ? "span " + span : "span " + groupColumns * 6,
-      flex: span > 6 ? "auto" : "none",
+      "grid-column": "span " + span,
     },
   };
 
