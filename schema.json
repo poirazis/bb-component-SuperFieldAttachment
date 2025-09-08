@@ -110,6 +110,12 @@
         }
       },
       {
+        "type": "boolean",
+        "key": "invisible",
+        "label": "Invisible",
+        "defaultValue": false
+      },
+      {
         "type": "buttonConfiguration",
         "key": "buttons",
         "nested": true
