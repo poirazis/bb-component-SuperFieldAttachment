@@ -6,7 +6,8 @@
     SuperField,
   } from "@poirazis/supercomponents-shared";
 
-  const { styleable, enrichButtonActions, builderStore } = getContext("sdk");
+  const { styleable, enrichButtonActions, builderStore, processStringSync } =
+    getContext("sdk");
   const component = getContext("component");
   const allContext = getContext("context");
 
@@ -53,7 +54,7 @@
 
   $: formStep = formStepContext ? $formStepContext || 1 : 1;
   $: labelPos =
-    groupLabelPosition && labelPosition == "fieldGroup"
+    groupLabelPosition !== undefined && labelPosition == "fieldGroup"
       ? groupLabelPosition
       : labelPosition;
 
@@ -105,7 +106,7 @@
   };
 
   const handleChange = (newValue) => {
-    onChange?.({ value: newValue });
+    onChange?.();
     fieldApi?.setValue(newValue);
   };
 
@@ -129,14 +130,17 @@
     />
     {#if buttons?.length}
       <div class="inline-buttons">
-        {#each buttons as { text, onClick, icon, size, quiet, type }}
+        {#each buttons as { icon, onClick, ...rest }}
           <SuperButton
-            {icon}
-            {size}
-            {disabled}
-            {text}
-            {quiet}
-            {type}
+            {...rest}
+            icon={"ph ph-" + icon}
+            disabled={processStringSync(
+              rest.disabledTemplate ?? "",
+              $allContext
+            ) === true ||
+              disabled ||
+              groupDisabled ||
+              fieldState?.disabled}
             onClick={enrichButtonActions(onClick, $allContext)}
           />
         {/each}
