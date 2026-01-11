@@ -1,12 +1,16 @@
 {
   "type": "component",
-  "metadata": {},
+  "metadata": {
+    "svelteMajor": 5
+  },
   "schema": {
     "name": "bb-component-SuperFieldAttachment",
     "friendlyName": "Super Field - Attachment",
     "description": "An Attachmen Field component for Budibase",
     "icon": "ABC",
-    "requiredAncestors": ["form"],
+    "requiredAncestors": [
+      "form"
+    ],
     "block": true,
     "ejectable": false,
     "context": [
@@ -131,8 +135,14 @@
         "label": "Field Mode",
         "defaultValue": "formInput",
         "options": [
-          { "label": "Form Input", "value": "formInput" },
-          { "label": "Inline Input", "value": "inlineInput" }
+          {
+            "label": "Form Input",
+            "value": "formInput"
+          },
+          {
+            "label": "Inline Input",
+            "value": "inlineInput"
+          }
         ]
       },
       {
